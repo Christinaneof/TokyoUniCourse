@@ -1,0 +1,333 @@
+---
+title: "Assignment 1"
+author: "Christina"
+date: "2023-03-05"
+output: html_document
+editor_options: 
+  chunk_output_type: inline
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+install.packages("r package", repos = "http://cran.us.r-project.org")
+
+#task 1
+
+#a. What is the medically relevant insight from the article?
+
+#In this study, the authors developed a novel metric, the exclusively expressed index (EEI), to comprehensively quantify mutual exclusivity between two genes from sparse scRNA-seq data, in this case a glioblastoma scRNAseq dataset. Glioblastoma is a notoriously heterogeneous tumor, so methods to improve the sensitivity of the identification of cell-to-cell heterogeneity are very relevant in this context. They evaluated the effectiveness of EEI compared to four existing methods, the Pearson correlation coefficient, minet, GENIE3 and PIDC, and found that EEI was better at identifying mutually exclusive gene sets.
+
+#b. Which genomics technology/ technologies were used?
+
+#To evaluate the performance of EEI and the community detection of coexpression networks, they used six scRNA-seq datasets.
+#1. Glioblastoma scRNA-seq data from stem-like cells, before and after the addition of serum that are collected at 0 and 12 hours
+#2. Human ES progenitor scRNA-seq data by Chu et al.
+#3. Human ESC-derived neuron scRNA-seq data by Manno et al.
+#4 Mouse cortex scRNA-seq data
+#5 PBMC CELseq2 scRNA-seq dat by Mereu et al. 
+#6 PBMC MARSseq scRNA-seq data by Mereu et al.
+
+#The authors evaluated the performance of EEI on the basis of the area under the precision-recall curve (AUPR) and average precision. To validate the performance for clustering of single cells, they adopted the Adjusted Rand Index (ARI) and the silhouette coefficient. ARI measures the similarity between predicted and true cluster labels and ranges from 0.0 to 1.0.
+
+#3.
+#a. List and explain at least three questions/ hypotheses you can think of that extend the analysis presented in the paper.
+
+# While the authors are comparing 5 methods to each other, they use a relative prediction accuracy score, setting the value of the EEI prediction accuracy as 1 and then comparing the 4 existing methods to EEI (Figure 2). It is still left unknown whether the EEI method is accurate at predicting real commonalities between datasets that have any biological significance.
+
+# When the authors performed a comparison of community detection, they used known marker genes for specific cell types in order to identify other candidate marker genes from known marker genes, for example they specify NSPCs as cells which co-express SOX2, PAX6, MAP2. In glioblastoma CSCs, there are several subtypes of pro-neural cells or pre-oligondentrocyte-like cells which all fall under the same umbrella of stem-like cells and the known markers for each are sometimes overlapping, so it is a slippery slope to infer candidate genes from markers which are not so well-established yet. Also the expression levels of these markers (for example SOX2high or SOX2low) could have been included to further classify the subsets of genes.
+
+# The authors used a newly generated glioblastoma scRNA-seq dataset from stem-like cells, before and after the addition of serum that are collected at 0 and 12 hours. The datasets obtained at 0h and 12h contained 2102 and 2209 single cells in total, respectively. The cells were grown in stem-cell enriching media, so a certain cell selection happened, enriching for NSPCs (since they used F12 media that the pro-neural cells prefer), so their 2 datasets will be more similar to each other than not similar, clouding the data. I also think that 12 hours might be too short of a timeframe for the cells to expand, which is reflected also in the minor difference between 2102 and 2209 cells in the 0h and 12h timepoint. It would have been more relevant to include tumor samples from different patients (which would have not only intra-tumor, but also patient-to-patient heterogeneity) and compare those to each other.
+
+```
+
+
+```{r}
+
+#task 4
+
+#1
+sqrt(10)
+
+#2
+log2(32)
+
+#3
+sum(1:1000)
+
+#4
+sum(seq(2,1000, by=2))
+
+#5 the mathematical formula is n(n-1)/2 with n=100 for 100 genes
+100*99/2
+
+#6
+genes_in_triplets<-combn(100,3)
+sum(genes_in_triplets)
+
+```
+
+```{r}
+#task 5
+
+#1
+CO2
+
+#2
+?CO2
+#Response: The CO2 data frame has 84 rows and 5 columns of data from an experiment on the cold tolerance of the grass species Echinochloa crus-galli.The CO2 uptake of six plants from Quebec and six plants from Mississippi was measured at several levels of ambient CO2 concentration. Half the plants of each type were chilled overnight before the experiment was conducted.
+
+#3
+Quebec<-subset(CO2, Type=="Quebec")
+ave(Quebec[,5])
+median(Quebec[,5])
+Mississippi<-subset(CO2, Type=="Mississippi")
+ave(Mississippi[,5])
+median(Mississippi[,5])
+
+```
+
+```{r}
+
+#task 6
+
+#1
+given_vector <- c(1, 3, 3, 4, 7, 5) 
+
+mean(given_vector)/median(given_vector)
+
+#2
+
+#ignore min and max from vector
+
+max(given_vector)
+min(given_vector)
+
+y <- given_vector[! given_vector %in% c(min(given_vector), max(given_vector))]
+
+y #just to check if it actually removed the values
+
+mean(y)
+
+#3 Pipes are used to chain functions one after the other, but should not be used: 
+# When the data becomes too complex, with multiple data frames,
+# when you need to access intermediate results of your code,
+# when you want to use functions that require multiple arguments,
+# when you need to modify the data in-place (because pipes create new data frames at each step).
+
+#4 
+
+#the apply family functions allow for the application of a function to a specified row or column of a data frame, hence could be useful in data analysis. For example, "apply" can be used to calculate the mean expression level of each gene across multiple samples in a gene expression matrix, or the correlation coefficient between two variables, such as gene expression and drug treatment, across multiple samples.
+
+```
+```{r}
+#task 7
+
+setwd("/Users/chrneo/Library/CloudStorage/OneDrive-KI.SE/Mac/Desktop/Japan course")
+
+library(tidyverse)
+library(ggplot2)
+
+read.csv(file = "/Users/chrneo/Downloads/magic_guys.csv")
+
+magic_guys <- read.csv(file = "/Users/chrneo/Downloads/magic_guys.csv")
+magic_guys
+```
+
+
+```{r}
+# task 7. 1 
+
+#a,b,c. 
+
+magic_guys_only_jedi <- magic_guys[magic_guys$length != "sith", ]
+magic_guys_only_sith <- magic_guys[magic_guys$length != "jedi", ]
+
+png(file = "histogram.png", width=1600, height=1167) #saves as png, best for figures
+par(mfrow=c(1,2)) #makes two graphs next to each other
+hist(magic_guys_only_jedi$length, breaks=10) 
+hist(magic_guys_only_sith$length, breaks=10)
+dev.off() #closes the png
+
+hist(magic_guys_only_jedi$length, breaks=20) 
+hist(magic_guys_only_sith$length, breaks=20)
+
+pdf(file = "histogram.pdf") #saves as pdf, for documents
+par(mfrow=c(1,2)) #makes two graphs next to each other
+hist(magic_guys_only_jedi$length, breaks=10) 
+hist(magic_guys_only_sith$length, breaks=10)
+dev.off() #closes the pdf
+
+svg(file = "histogram.svg") #saves as svg, useful for illustrator, you an change the labels etc
+par(mfrow=c(1,2)) #makes two graphs next to each other
+hist(magic_guys_only_jedi$length, breaks=10) 
+hist(magic_guys_only_sith$length, breaks=10)
+dev.off() #closes the svg
+
+ggplot(magic_guys, aes(x=length)) + geom_histogram() #histogram but with ggplot
+
+#the height of both species is normally distributed 
+
+#boxplots
+png(file = "boxplot.png", width=1600, height=1167) #makes a png file
+par(mfrow=c(1,2))
+boxplot(magic_guys_only_jedi$length, horizontal=TRUE, main="Jedi height")
+boxplot(magic_guys_only_sith$length, horizontal=TRUE, main="Sith height")
+dev.off() #closes the png
+
+ggplot(data = magic_guys, mapping = aes(x = species, y = length)) +
+    geom_boxplot() #boxplot but with ggplot
+
+ggplot(data = magic_guys, mapping = aes(x = species, y = length)) +
+    geom_boxplot(alpha = 0) +
+    geom_jitter(alpha = 0.3, color = "tomato") #example of different visualisation
+
+```
+
+
+```{r}
+#task 7.2
+
+read.delim(file = "/Users/chrneo/Downloads/microarray_data.tab")
+microarray <- read.delim(file = "/Users/chrneo/Downloads/microarray_data.tab")
+microarray
+
+#a
+ncol(microarray) #it has 1000 columns
+nrow(microarray) #it has 553 rows
+
+#b
+
+sum(is.na (microarray)) #there is a total of 117826 missing values in the matrix
+sapply(microarray, function(x) sum(length(which(is.na(x))))) #finds n/a per column
+na <- sapply(microarray, function(x) sum(length(which(is.na(x)))))
+na<-as.matrix(na) 
+na <- cbind(rownames(na), data.frame(na, row.names=NULL))
+colnames(na) <- c("gene", "missing val")
+na
+
+hist(na$"missing val", breaks=30) #visualization
+
+#2c
+percent_missing_ten <- colMeans(is.na(na))
+genes_with_more_than_10_percent_missing <- names(percent_missing_ten[percent_missing_ten > 0.1])
+genes_with_more_than_10_percent_missing
+
+percent_missing_twenty <- colMeans(is.na(na))
+genes_with_more_than_10_percent_missing <- names(percent_missing_twenty[percent_missing_twenty > 0.2])
+genes_with_more_than_10_percent_missing
+
+percent_missing_fifty <- colMeans(is.na(na))
+genes_with_more_than_10_percent_missing <- names(percent_missing_fifty[percent_missing_fifty > 0.5])
+genes_with_more_than_10_percent_missing
+
+#2d
+
+row_means <- rowMeans(microarray, na.rm=TRUE)
+row_means
+microarray_data_replaced<-apply(na, 2, function(x) {
+  x[is.na(x)] <- row_means
+  x
+})
+microarray_data_replaced
+
+```
+
+```{r}
+#task 7.3
+
+CO2
+
+boxplot(uptake ~ Treatment, data=CO2, breaks=30, frame=F,  border=c("#345355", "#54E256"), col=c("#92A357", "#422974"),xlab="Plant", main="Uptake by treatment")#We see that nonchilled plants have more uptake of CO2 and that the chilled ones have bigger variation
+
+boxplot(conc ~ Type, data=CO2, breaks=30, frame=F,  border=c("#345355", "#54E256"), col=c("#92A357", "#422974"),xlab="Plant", main="Conc by Area")#The Conc is not dependent by the area
+
+```
+
+
+```{r}
+#Task 8
+
+#8a
+
+devtools::install_github("hirscheylab/tidybiology")
+library(tidybiology)
+#a
+library(tidyverse)
+data(chromosome)
+chromosome
+Statistics<-summarise(chromosome,across(c(variations, protein_codinggenes, mi_rna),list(mean, median, max)))
+Statistics <- as.data.frame(matrix(unlist(Statistics), ncol = 3, byrow = TRUE))
+colnames(Statistics)<-c("Mean", "Median","Max")
+rownames(Statistics)<-c("Variations", "Protein-coding genes","miRNA")
+Statistics
+
+#8b
+library(ggplot2)
+?ggplot
+Chromosomal_size<-ggplot(chromosome)+ aes(x =id , y = length_mm, color = id, size=1) + 
+  geom_point(position=position_jitter(w = 0.1,h = 5)) +
+  theme_bw() +
+  ggtitle("Chromosomal size") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size=15)) +
+  theme(axis.title.x = element_text(size=17))+
+  theme(axis.title.y = element_text(size=17))+
+	theme(plot.title = element_text(hjust = 0.5, size=20))+
+  theme(legend.position = "none")
+Chromosomal_size
+
+#8c
+Chromosomal_num_pcg<-ggplot(chromosome)+ aes(x =protein_codinggenes , y = length_mm, color = id, size=1) + 
+  geom_point(position=position_jitter(w = 0.1,h = 5)) +
+  theme_bw() +
+  geom_text(aes(label = id), hjust = 2, vjust = 0)+
+  ggtitle("Corr chromosome size and protein-coding gene count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size=15)) +
+  theme(axis.title.x = element_text(size=17))+
+  theme(axis.title.y = element_text(size=17))+
+	theme(plot.title = element_text(hjust = 0.5, size=20))+
+  theme(legend.position = "none") +
+  labs(x = "Number of protein-coding genes", y = "Length in mm")
+Chromosomal_num_pcg
+
+Chromosomal_num_miRNA<-ggplot(chromosome)+ aes(x =mi_rna , y = length_mm, color = id, size=1) + 
+  geom_point(position=position_jitter(w = 0.1,h = 5)) +
+  theme_bw() +
+  geom_text(aes(label = id), hjust = 2, vjust = 0)+
+  ggtitle("Corr chromosome size and miRNA count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size=15)) +
+  theme(axis.title.x = element_text(size=17))+
+  theme(axis.title.y = element_text(size=17))+
+	theme(plot.title = element_text(hjust = 0.5, size=20))+
+  theme(legend.position = "none") +
+  labs(x = "Number of miRNAs", y = "Length in mm")
+Chromosomal_num_miRNA
+
+#8d
+data(proteins)
+proteins
+Protein_mass_length<-ggplot(proteins)+ aes(x =mass , y = length, color = uniprot_id, size=1) + 
+  geom_point(position=position_jitter(w = 0.1,h = 5)) +
+  theme_bw() +
+  geom_text(aes(label = protein_name), hjust = 1.4, vjust = 0)+
+  ggtitle("Corr chromosome size and miRNA count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size=15)) +
+  theme(axis.title.x = element_text(size=17))+
+  theme(axis.title.y = element_text(size=17))+
+	theme(plot.title = element_text(hjust = 0.5, size=20))+
+  theme(legend.position = "none") +
+  labs(x = "Protein mass", y = "Length")
+Protein_mass_length
+
+
+
+
+```
+
+```{r}
+
+
+```
+
